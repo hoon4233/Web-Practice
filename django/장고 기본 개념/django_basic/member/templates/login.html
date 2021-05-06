@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--  -->
+<div class="container>
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <h1>로그인</h1>
+      <div class="row mt-5">  <!--이 부분이 view 함수에서 받은 res_data의 error를 출력해줄 것이다.-->
+          <div class="col-12">
+            {{error}}
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="container>
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <form method="POST" action=".">  <!-- 회원가입을 할때 정보를 보내야하므로 get이 아닌 post 사용하고 현재 주소에 action을 할것이란 의미로 action에 .을 사용 -->
+          {% csrf_token %}     <!--폼이 안전하게 데이터를 보내주기 위해서 쓰는 코드-->
+          {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <input
+              type="{{ field.field.widget.input_type }}"
+              class="form-control"
+              id="{{ field.id_for_label }}"
+              placeholder="{{ field.label }}"
+              name="{{ field.name }}"
+            />
+          </div>
+          {% if field.errors %} <!-- 유효성 검사에 대한 에러 메세지를 출력한다. ex) 아이디 칸이 비어있습니다, 비밀번호 칸이 비어있습니다... -->
+          <span style="color: red;">{{ field.errors }}</span>
+          {% endif %} 
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Submit</button>
+       </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
